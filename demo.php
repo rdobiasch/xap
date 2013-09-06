@@ -1,6 +1,5 @@
 <?php
 
-# just a new comment line
 
   include "vp.php";
   include "xap.php";
