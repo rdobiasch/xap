@@ -337,9 +337,11 @@ create table xap_data_type
  base_type   int not null,  /* references entry in xap_data_type_enum */
  data_len    int,  /* length of text field, number of digits */
  data_prec   int,  /* number of digits behind comma */
+ enum_id     int,  /* in case of an enumeration, the enumeration to be used is specified here */
  --
  unique key(name),
- foreign key (base_type) references xap_enumeration_entry(xap_id) on delete restrict 
+ foreign key (base_type) references xap_enumeration_entry(xap_id) on delete restrict,
+ foreign key (enum_id)   references xap_enumeration_entry(xap_id) on delete restrict 
 );
 
 
@@ -523,8 +525,8 @@ insert into xap_data_type (xap_id, xap_cre_dat, xap_user_id, xap_project_id, nam
 insert into xap_data_type (xap_id, xap_cre_dat, xap_user_id, xap_project_id, name, base_type, data_len, data_prec) values (14, now(), 1, 1, 'Boolean',           7,   1, 0);
 insert into xap_data_type (xap_id, xap_cre_dat, xap_user_id, xap_project_id, name, base_type, data_len, data_prec) values (15, now(), 1, 1, 'Access',            1,   3, 0);
 insert into xap_data_type (xap_id, xap_cre_dat, xap_user_id, xap_project_id, name, base_type, data_len, data_prec) values (16, now(), 1, 1, 'ClassId',           2,  10, 0);
-
-
+insert into xap_data_type (xap_id, xap_cre_dat, xap_user_id, xap_project_id, name, base_type, data_len, data_prec) values (17, now(), 1, 1, 'Enumeration',       2,  10, 0); -- ??
+insert into xap_data_type (xap_id, xap_cre_dat, xap_user_id, xap_project_id, name, base_type, data_len, data_prec, enum_id) values (18, now(), 1, 1, 'BaseType',          8,  10, 0, 1);
 
 -- -----------------------------------------------------------------------------
 -- XAP Classes
@@ -716,6 +718,50 @@ insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
                         where cls.name='XAP-Data-Type'
                           and dt.name='Name';
 
+
+insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
+                                class_id, sort_id, name, description, data_type) 
+                        select now(), 1, 1, 
+                                cls.xap_id, 2, 'base_type', 'base_type', dt.xap_id
+                        from xap_class cls,
+                             xap_data_type dt
+                        where cls.name='XAP-Data-Type'
+                          and dt.name='BaseType';
+
+
+insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
+                                class_id, sort_id, name, description, data_type) 
+                        select now(), 1, 1, 
+                                cls.xap_id, 3, 'data_len', 'data length', dt.xap_id
+                        from xap_class cls,
+                             xap_data_type dt
+                        where cls.name='XAP-Data-Type'
+                          and dt.name='I10';
+                          
+                          
+insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
+                                class_id, sort_id, name, description, data_type) 
+                        select now(), 1, 1, 
+                                cls.xap_id, 4, 'data_prec', 'data precision', dt.xap_id
+                        from xap_class cls,
+                             xap_data_type dt
+                        where cls.name='XAP-Data-Type'
+                          and dt.name='I10';
+                          
+
+  --  is the attribute, which is indicating / referening the enumeration to be used
+  --     an attribute or a reference attribute .... ???
+insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
+                                class_id, sort_id, name, description, data_type) 
+                        select now(), 1, 1, 
+                                cls.xap_id, 5, 'enum_id', 'enumeration', dt.xap_id
+                        from xap_class cls,
+                             xap_data_type dt
+                        where cls.name='XAP-Data-Type'
+                          and dt.name='Enumeration';                          
+                          
+                          
+                          
 insert into xap_class (xap_id, xap_cre_dat, xap_user_id, xap_project_id, name, table_name) values ( 9, now(), 1, 1, 'XAP-Class',             'xap_class');
 
 insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
@@ -770,10 +816,10 @@ insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
                           
                           
                           
----------------------
+-- -------------------
 --  Associations 
----------------------
-insert into xap_class (xap_id, xap_cre_dat, xap_user_id, xap_project_id, name, table_name) values ( 1, now(), 1, 1, 'XAP-Reference',  'xap_reference');
+-- -------------------
+insert into xap_class (xap_id, xap_cre_dat, xap_user_id, xap_project_id, name, table_name) values ( 11, now(), 1, 1, 'XAP-Reference',  'xap_reference');
 
 
 insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
@@ -836,7 +882,7 @@ insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
                           and dt.name='ClassId';
                           
 
-insert into xap_class (xap_id, xap_cre_dat, xap_user_id, xap_project_id, name, table_name) values ( 1, now(), 1, 1, 'XAP-Relation',  'xap_relation');
+insert into xap_class (xap_id, xap_cre_dat, xap_user_id, xap_project_id, name, table_name) values ( 12, now(), 1, 1, 'XAP-Relation',  'xap_relation');
 
 
 
