@@ -13,7 +13,9 @@ include "xap.php";
    ?>
    
    <ul>
-     <li><a href="xap_enums.php">enums</?>
+     <li><a href="xap_enums.php">enums</a>
+     <li><a href="xap_data_types.php">data types</a>
+     <li><a href="xap_classes.php">classes</a>
    </ul>
    
    <?
