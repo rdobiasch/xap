@@ -7,7 +7,7 @@ include "xap.php";
  $x= new XAP();
  $x->script="index.php";
  
- if ($x->start_page("welcome"))
+ if ($x->start_page("welcome $Id$"))
  {
   
    ?>
