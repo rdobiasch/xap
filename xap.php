@@ -289,7 +289,28 @@
       }
     }
     
-  
+    # get html parameter from  get  or from post
+    function get_param($name, $default)
+    {
+    	$v= $default;
+    	
+        if (isset($_GET[$name])) 
+        {
+            $v= $_GET[$name];
+        } 
+ 	else
+ 	{
+ 	   if (isset($_POST[$name])) 
+ 	   { 
+ 	      $v= $_POST[$name]; 
+ 	   }
+ 	   else
+ 	   {
+ 	      $v= $default;
+ 	   }
+ 	}
+       return($v);
+    }
      
   }
 ?>

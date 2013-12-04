@@ -45,27 +45,56 @@
                   and dt.xap_id=ca.data_type
                   order by ca.sort_id";
                 $r2= mysql_query($stmt2, $x->db);
-         if (!$r2)
-         {
-           $x->error_message= mysql_error()."<p>\n";
-         }
-         else
-         {
-           $cnt= 0;
-           while ($row= mysql_fetch_row($r2))
-           {
-                $cnt++;
-                $a_id= $row[0];
-                $a_sort_id= $row[1];
-	        $a_name= $row[2];
-	        $a_descr= $row[3];
-	        $a_dt= $row[4];
-               echo "      $a_sort_id  $a_name  type=$a_dt\n";
-           }
-         }
+                if (!$r2)
+                {
+                   $x->error_message= mysql_error()."<p>\n";
+                }
+                else
+                {
+                  $cnt= 0;
+                  while ($row= mysql_fetch_row($r2))
+                  {
+                     $cnt++;
+                     $a_id= $row[0];
+                     $a_sort_id= $row[1];
+	             $a_name= $row[2];
+	             $a_descr= $row[3];
+	             $a_dt= $row[4];
+                     echo "      $a_sort_id  $a_name  type=$a_dt\n";
+                  }
+                }
                
-               
-               
+ 
+                /*
+                
+                             $stmt2= "select r.sort_id, r.name ref_name, t.name t_class 
+                           from xap_reference r,
+                                xap_class t
+                where r.from_class_id=$class_id 
+                  and t.xap_id=r.to_class_id
+                  order by r.sort_id";
+                $r2= mysql_query($stmt2, $x->db);
+                if (!$r2)
+                {
+                   
+                   $x->error_message= mysql_error()."<p>\n";
+                   echo $x->error_message . "<p>\n";
+                }
+                else
+                {
+                  $cnt= 0;
+                  while ($row= mysql_fetch_row($r2))
+                  {
+                     $cnt++;
+                     $r_sort_id= $row[0];
+                     $r_name= $row[1];
+	             $r_target= $row[2];
+	             
+                     echo "      $r_sort_id  $r_name ----> $r_target\n";
+                  }
+                }
+
+               */
                
            }
          }
