@@ -344,7 +344,7 @@ create table xap_data_type
  --
  unique key(name),
  foreign key (base_type) references xap_enumeration_entry(xap_id) on delete restrict,
- foreign key (enum_id)   references xap_enumeration_entry(xap_id) on delete restrict
+ foreign key (enum_id)   references xap_enumeration(xap_id) on delete restrict
  -- foreign key to class to be added after table xap_class is created
 );
 
