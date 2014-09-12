@@ -660,7 +660,16 @@ insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
                         where cls.name='XAP-User'
                           and dt.name='EncryptedPassword';
 
- 
+              
+insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
+                                class_id, sort_id, name, description, data_type) 
+                        select now(), 1, 1, 
+                                cls.xap_id, 3, 'person_id', 'person', dt.xap_id
+                        from xap_class cls,
+                             xap_data_type dt
+                        where cls.name='XAP-User'
+                          and dt.name='Person-Reference'; 
+                          
 -- still missing: person_id  ... reference to xap_person
  
 /*
@@ -710,8 +719,6 @@ insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
                         where cls.name='XAP-Person'
                           and dt.name='Email';
 
-
-                          
                           
                           
 
@@ -786,11 +793,32 @@ insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
                           and dt.name='Description';
 
 
-
+                          
+                   
 insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
                                 class_id, sort_id, name, description, data_type) 
                         select now(), 1, 1, 
-                                cls.xap_id, 1, 'entry_text', 'entry text', dt.xap_id
+                                cls.xap_id, 1, 'enumeration_id', 'enumeration', dt.xap_id
+                        from xap_class cls,
+                             xap_data_type dt
+                        where cls.name='XAP-Enumeration-Entry'
+                          and dt.name='Enumeration-Reference';                          
+
+                                                 
+insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
+                                class_id, sort_id, name, description, data_type) 
+                        select now(), 1, 1, 
+                                cls.xap_id, 2, 'entry_id', 'enumeration id', dt.xap_id
+                        from xap_class cls,
+                             xap_data_type dt
+                        where cls.name='XAP-Enumeration-Entry'
+                          and dt.name='I10'; 
+
+                          
+insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
+                                class_id, sort_id, name, description, data_type) 
+                        select now(), 1, 1, 
+                                cls.xap_id, 3, 'entry_text', 'entry text', dt.xap_id
                         from xap_class cls,
                              xap_data_type dt
                         where cls.name='XAP-Enumeration-Entry'
@@ -799,13 +827,22 @@ insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
 insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
                                 class_id, sort_id, name, description, data_type) 
                         select now(), 1, 1, 
-                                cls.xap_id, 2, 'description', 'description', dt.xap_id
+                                cls.xap_id, 4, 'description', 'description', dt.xap_id
                         from xap_class cls,
                              xap_data_type dt
                         where cls.name='XAP-Enumeration-Entry'
                           and dt.name='Description';
 
-
+                       
+insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
+                                class_id, sort_id, name, description, data_type) 
+                        select now(), 1, 1, 
+                                cls.xap_id, 3, 'enumeration_id', 'enumeration', dt.xap_id
+                        from xap_class cls,
+                             xap_data_type dt
+                        where cls.name='XAP-Enumeration-Entry'
+                          and dt.name='Enumeration-Reference';
+                          
 
 
 
