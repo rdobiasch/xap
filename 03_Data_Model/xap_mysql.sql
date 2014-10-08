@@ -6,6 +6,9 @@
 
 -- mysqldump -h host -uroot -ppassword databasename --default-character-set=latin1 
 
+# 2014-09-12  added some references in the meta model
+
+
 drop database xap;
 
 create database xap;
@@ -977,33 +980,47 @@ insert into xap_class (xap_id, xap_cre_dat, xap_user_id, xap_project_id, name, t
 -- create data type "reference to class attribute"
 insert into xap_data_type (xap_id, xap_cre_dat, xap_user_id, xap_project_id, name, base_type, data_len, data_prec, class_id) values (28, now(), 1, 1, 'Class-Attribute-Reference',          9,  10, 0, 10);
 
+                         
+insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
+                                class_id, sort_id, name, description, data_type) 
+                        select now(), 1, 1, 
+                                cls.xap_id, 1, 'class_id', 'description', dt.xap_id
+                        from xap_class cls,
+                             xap_data_type dt
+                        where cls.name='XAP-Class-Attribute'
+                          and dt.name='Class-Reference';
 
 insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
                                 class_id, sort_id, name, description, data_type) 
                         select now(), 1, 1, 
-                                cls.xap_id, 1, 'name', 'description', dt.xap_id
+                                cls.xap_id, 2, 'name', 'description', dt.xap_id
                         from xap_class cls,
                              xap_data_type dt
                         where cls.name='XAP-Class-Attribute'
                           and dt.name='Name';
 			  
+                          
+                                             
 insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
                                 class_id, sort_id, name, description, data_type) 
                         select now(), 1, 1, 
-                                cls.xap_id, 2, 'description', 'description', dt.xap_id
+                                cls.xap_id, 3, 'description', 'description', dt.xap_id
                         from xap_class cls,
                              xap_data_type dt
                         where cls.name='XAP-Class-Attribute'
                           and dt.name='Description';
                           
+                                           
 insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
                                 class_id, sort_id, name, description, data_type) 
                         select now(), 1, 1, 
-                                cls.xap_id, 3, 'class_id', 'description', dt.xap_id
+                                cls.xap_id, 4, 'description', 'description', dt.xap_id
                         from xap_class cls,
                              xap_data_type dt
                         where cls.name='XAP-Class-Attribute'
-                          and dt.name='Class-Reference';
+                          and dt.name='Data-Type-Reference';
+                          
+ 
 			  
 /*  TBD  2013-12-04 
 insert into xap_reference (xap_cre_dat, xap_user_id, xap_project_id,
