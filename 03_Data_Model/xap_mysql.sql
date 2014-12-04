@@ -6,6 +6,10 @@
 
 -- mysqldump -h host -uroot -ppassword databasename --default-character-set=latin1 
 
+# 2014-12-04
+# 2014-10-09  additional columns for XAP-CLASS-ATTRIBUTE 
+# 2014-10-09  removed duplicate enumeration_id attribute from XAP-ENUMERATION-ENTRY
+#
 # 2014-09-12  added some references in the meta model
 
 
@@ -401,59 +405,19 @@ create table xap_class_attribute
  sort_id     integer not null,
  name        varchar(50) not null,
  description varchar(300),
- data_type   int,  /* references entry in xap_data_type_enum */
+ data_type   int not null,  /* references entry in xap_data_type_enum */
+ not_null    char(1) not null default 'n',
+ unique_index_1  varchar(50) null,   
+ unique_index_2  varchar(50) null,
+ unique_index_3  varchar(50) null,
+ instance_name int, /* indicates (sorted) if this attribute is used to build a short name for display,
+                        e.g. at references */
  --
  unique key(class_id, name),
  foreign key (class_id) references xap_class(xap_id) on delete cascade,
  foreign key (data_type) references xap_data_type(xap_id) on delete restrict 
 );
  
-
-
-
--- association / relation between two objects
---
--- to be modelled: 1-n relation without separate table  (reference)
---                 n-m relation (requires tables)       (relation)
---
-
-/*  2013-12-04  reference is now modelled as attribute with
-                  specific data types 
-                  
-create table xap_reference
-(xap_id             int         not null auto_increment,
- xap_cre_dat        datetime    not null,
- xap_user_id        int         not null,
- xap_project_id     int         not null,
- xap_access         varchar(3)  not null default 'ddr',
- xap_deleted        char(1)     not null default 'n', 
- xap_upd_dat        datetime    null,
- xap_upd_user_id    int         null,
- xap_reservation_id int         null,
- --
- --
- primary key (xap_id),
- foreign key (xap_user_id)        references xap_user(xap_id)        on delete cascade,
- foreign key (xap_project_id)     references xap_project(xap_id)     on delete cascade,
- foreign key (xap_upd_user_id)    references xap_user(xap_id)        on delete set null,
- foreign key (xap_reservation_id) references xap_reservation(xap_id) on delete set null,
- --
- sort_id       int null,
- --
- from_class_id int not null,
- to_class_id   int null,
- --
- name        varchar(50) not null,
- description varchar(255),
- card_from_min  int null,  -- just for data consistency checks
- card_from_max  int null,  -- just for data consistency checks
- --
- unique key(from_class_id, to_class_id, name),
- foreign key (from_class_id)     references xap_class(xap_id)     on delete cascade,
- foreign key (to_class_id)       references xap_class(xap_id)     on delete cascade
-
-);
-*/
 
 
 create table xap_relation
@@ -836,15 +800,6 @@ insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
                         where cls.name='XAP-Enumeration-Entry'
                           and dt.name='Description';
 
-                       
-insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
-                                class_id, sort_id, name, description, data_type) 
-                        select now(), 1, 1, 
-                                cls.xap_id, 3, 'enumeration_id', 'enumeration', dt.xap_id
-                        from xap_class cls,
-                             xap_data_type dt
-                        where cls.name='XAP-Enumeration-Entry'
-                          and dt.name='Enumeration-Reference';
                           
 
 
@@ -1014,13 +969,66 @@ insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
 insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
                                 class_id, sort_id, name, description, data_type) 
                         select now(), 1, 1, 
-                                cls.xap_id, 4, 'description', 'description', dt.xap_id
+                                cls.xap_id, 4, 'data_type', 'Date Type', dt.xap_id
                         from xap_class cls,
                              xap_data_type dt
                         where cls.name='XAP-Class-Attribute'
                           and dt.name='Data-Type-Reference';
                           
  
+                                         
+insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
+                                class_id, sort_id, name, description, data_type) 
+                        select now(), 1, 1, 
+                                cls.xap_id, 5, 'not_null', 'not_null', dt.xap_id
+                        from xap_class cls,
+                             xap_data_type dt
+                        where cls.name='XAP-Class-Attribute'
+                          and dt.name='Boolean';                          
+                          
+                                         
+insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
+                                class_id, sort_id, name, description, data_type) 
+                        select now(), 1, 1, 
+                                cls.xap_id, 6, 'unique_index_1', 'unique_index_1', dt.xap_id
+                        from xap_class cls,
+                             xap_data_type dt
+                        where cls.name='XAP-Class-Attribute'
+                          and dt.name='NameShort';   
+                          
+                        
+                                         
+insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
+                                class_id, sort_id, name, description, data_type) 
+                        select now(), 1, 1, 
+                                cls.xap_id, 7, 'unique_index_2', 'unique_index_2', dt.xap_id
+                        from xap_class cls,
+                             xap_data_type dt
+                        where cls.name='XAP-Class-Attribute'
+                          and dt.name='NameShort';  
+                          
+                        
+                                         
+insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
+                                class_id, sort_id, name, description, data_type) 
+                        select now(), 1, 1, 
+                                cls.xap_id, 8, 'unique_index_3', 'unique_index_3', dt.xap_id
+                        from xap_class cls,
+                             xap_data_type dt
+                        where cls.name='XAP-Class-Attribute'
+                          and dt.name='NameShort';   
+  
+                                         
+insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
+                                class_id, sort_id, name, description, data_type) 
+                        select now(), 1, 1, 
+                                cls.xap_id, 8, 'instance_name', 'instance_name', dt.xap_id
+                        from xap_class cls,
+                             xap_data_type dt
+                        where cls.name='XAP-Class-Attribute'
+                          and dt.name='I10';   
+                          
+                          
 			  
 /*  TBD  2013-12-04 
 insert into xap_reference (xap_cre_dat, xap_user_id, xap_project_id,
