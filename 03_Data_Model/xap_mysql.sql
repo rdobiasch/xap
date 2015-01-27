@@ -660,22 +660,24 @@ insert into xap_reference (xap_cre_dat, xap_user_id, xap_project_id,
 -- email           varchar(100),
 
 insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
-                                class_id, sort_id, name, description, data_type) 
+                                class_id, sort_id, name, description, data_type, instance_name) 
                         select now(), 1, 1, 
-                                cls.xap_id, 1, 'first_name', 'first name', dt.xap_id
+                                cls.xap_id, 1, 'last_name', 'last name', dt.xap_id, 1
+                        from xap_class cls,
+                             xap_data_type dt
+                        where cls.name='XAP-Person'
+                          and dt.name='Name';
+                          
+                     
+insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
+                                class_id, sort_id, name, description, data_type, instance_name) 
+                        select now(), 1, 1, 
+                                cls.xap_id, 2, 'first_name', 'first name', dt.xap_id, 2
                         from xap_class cls,
                              xap_data_type dt
                         where cls.name='XAP-Person'
                           and dt.name='Name';
 
-insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
-                                class_id, sort_id, name, description, data_type) 
-                        select now(), 1, 1, 
-                                cls.xap_id, 2, 'last_name', 'last name', dt.xap_id
-                        from xap_class cls,
-                             xap_data_type dt
-                        where cls.name='XAP-Person'
-                          and dt.name='Name';
 
 insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
                                 class_id, sort_id, name, description, data_type) 
@@ -686,8 +688,7 @@ insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
                         where cls.name='XAP-Person'
                           and dt.name='Email';
 
-                          
-                          
+                                               
 
 insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
                                 class_id, sort_id, name, description, data_type) 
@@ -702,9 +703,9 @@ insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
 
 
 insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
-                                class_id, sort_id, name, description, data_type) 
+                                class_id, sort_id, name, description, data_type, instance_name) 
                         select now(), 1, 1, 
-                                cls.xap_id, 1, 'name', 'name', dt.xap_id
+                                cls.xap_id, 1, 'name', 'name', dt.xap_id, 1
                         from xap_class cls,
                              xap_data_type dt
                         where cls.name='XAP-Project'
@@ -721,9 +722,9 @@ insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
 
 
 insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
-                                class_id, sort_id, name, description, data_type) 
+                                class_id, sort_id, name, description, data_type, instance_name) 
                         select now(), 1, 1, 
-                                cls.xap_id, 1, 'name', 'name', dt.xap_id
+                                cls.xap_id, 1, 'name', 'name', dt.xap_id, 1
                         from xap_class cls,
                              xap_data_type dt
                         where cls.name='XAP-Role'
@@ -742,9 +743,9 @@ insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
 
 
 insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
-                                class_id, sort_id, name, description, data_type) 
+                                class_id, sort_id, name, description, data_type, instance_name) 
                         select now(), 1, 1, 
-                                cls.xap_id, 1, 'name', 'name', dt.xap_id
+                                cls.xap_id, 1, 'name', 'name', dt.xap_id, 1
                         from xap_class cls,
                              xap_data_type dt
                         where cls.name='XAP-Enumeration'
@@ -763,9 +764,9 @@ insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
                           
                    
 insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
-                                class_id, sort_id, name, description, data_type) 
+                                class_id, sort_id, name, description, data_type, instance_name) 
                         select now(), 1, 1, 
-                                cls.xap_id, 1, 'enumeration_id', 'enumeration', dt.xap_id
+                                cls.xap_id, 1, 'enumeration_id', 'enumeration', dt.xap_id, 1
                         from xap_class cls,
                              xap_data_type dt
                         where cls.name='XAP-Enumeration-Entry'
@@ -903,9 +904,9 @@ insert into xap_reference (xap_cre_dat, xap_user_id, xap_project_id,
   */                       
  
 insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
-                                class_id, sort_id, name, description, data_type) 
+                                class_id, sort_id, name, description, data_type, instance_name) 
                         select now(), 1, 1, 
-                                cls.xap_id, 1, 'name', 'name', dt.xap_id
+                                cls.xap_id, 1, 'name', 'name', dt.xap_id, 1
                         from xap_class cls,
                              xap_data_type dt
                         where cls.name='XAP-Class'
@@ -944,11 +945,22 @@ insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
                              xap_data_type dt
                         where cls.name='XAP-Class-Attribute'
                           and dt.name='Class-Reference';
+                          
+                                             
+insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
+                                class_id, sort_id, name, description, data_type) 
+                        select now(), 1, 1, 
+                                cls.xap_id, 2, 'sort_id', 'sort_id', dt.xap_id
+                        from xap_class cls,
+                             xap_data_type dt
+                        where cls.name='XAP-Class-Attribute'
+                          and dt.name='I10';
+
 
 insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
                                 class_id, sort_id, name, description, data_type) 
                         select now(), 1, 1, 
-                                cls.xap_id, 2, 'name', 'description', dt.xap_id
+                                cls.xap_id, 3, 'name', 'description', dt.xap_id
                         from xap_class cls,
                              xap_data_type dt
                         where cls.name='XAP-Class-Attribute'
@@ -959,7 +971,7 @@ insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
 insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
                                 class_id, sort_id, name, description, data_type) 
                         select now(), 1, 1, 
-                                cls.xap_id, 3, 'description', 'description', dt.xap_id
+                                cls.xap_id, 4, 'description', 'description', dt.xap_id
                         from xap_class cls,
                              xap_data_type dt
                         where cls.name='XAP-Class-Attribute'
@@ -969,7 +981,7 @@ insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
 insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
                                 class_id, sort_id, name, description, data_type) 
                         select now(), 1, 1, 
-                                cls.xap_id, 4, 'data_type', 'Date Type', dt.xap_id
+                                cls.xap_id, 5, 'data_type', 'Date Type', dt.xap_id
                         from xap_class cls,
                              xap_data_type dt
                         where cls.name='XAP-Class-Attribute'
@@ -980,7 +992,7 @@ insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
 insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
                                 class_id, sort_id, name, description, data_type) 
                         select now(), 1, 1, 
-                                cls.xap_id, 5, 'not_null', 'not_null', dt.xap_id
+                                cls.xap_id, 6, 'not_null', 'not_null', dt.xap_id
                         from xap_class cls,
                              xap_data_type dt
                         where cls.name='XAP-Class-Attribute'
@@ -990,7 +1002,7 @@ insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
 insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
                                 class_id, sort_id, name, description, data_type) 
                         select now(), 1, 1, 
-                                cls.xap_id, 6, 'unique_index_1', 'unique_index_1', dt.xap_id
+                                cls.xap_id, 7, 'unique_index_1', 'unique_index_1', dt.xap_id
                         from xap_class cls,
                              xap_data_type dt
                         where cls.name='XAP-Class-Attribute'
@@ -1001,7 +1013,7 @@ insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
 insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
                                 class_id, sort_id, name, description, data_type) 
                         select now(), 1, 1, 
-                                cls.xap_id, 7, 'unique_index_2', 'unique_index_2', dt.xap_id
+                                cls.xap_id, 8, 'unique_index_2', 'unique_index_2', dt.xap_id
                         from xap_class cls,
                              xap_data_type dt
                         where cls.name='XAP-Class-Attribute'
@@ -1012,7 +1024,7 @@ insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
 insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
                                 class_id, sort_id, name, description, data_type) 
                         select now(), 1, 1, 
-                                cls.xap_id, 8, 'unique_index_3', 'unique_index_3', dt.xap_id
+                                cls.xap_id, 9, 'unique_index_3', 'unique_index_3', dt.xap_id
                         from xap_class cls,
                              xap_data_type dt
                         where cls.name='XAP-Class-Attribute'
@@ -1022,7 +1034,7 @@ insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
 insert into xap_class_attribute(xap_cre_dat, xap_user_id, xap_project_id,
                                 class_id, sort_id, name, description, data_type) 
                         select now(), 1, 1, 
-                                cls.xap_id, 8, 'instance_name', 'instance_name', dt.xap_id
+                                cls.xap_id, 10, 'instance_name', 'instance_name', dt.xap_id
                         from xap_class cls,
                              xap_data_type dt
                         where cls.name='XAP-Class-Attribute'
